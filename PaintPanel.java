@@ -1,26 +1,28 @@
+// import java.awt.Component;
+// import java.awt.List;
+// import java.awt.image.BufferedImage;
+// import javax.imageio.ImageIO;
+// import java.io.IOException;
+// import java.io.ObjectInputStream;
+// import java.io.ObjectOutputStream;
+// import java.io.Serializable;
+
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.List;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
-import shapes.*;
-
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import javax.swing.JPanel;
+import java.util.ArrayList;
 
-public class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, ComponentListener, Serializable {
+import shapes.*;
+
+
+
+
+public class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, ComponentListener {
 
     protected enum ShapeType {
         RECTANGLE, SQUARE, TRIANGLE, CUSTOM_TRIANGLE, OVAL, CIRCLE
