@@ -43,40 +43,6 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
     public void paint(Graphics g) {
         super.paint(g);
         System.out.println("painting....");
-        int w = this.getWidth();
-        int h = this.getHeight();
-        int eye = 30;
-        int eyeSpacing = 30;
-        int centerX = w/2;
-        int centerY = h/2;
-        int thirdY = h/3;
-        int nose = 40;
-        int mouth = 120;
-
-        // draw the face (red)
-        g.setColor(Color.RED);
-        g.drawOval(10,10,w-20,h-20);
-
-        // draw the eyes (blue rectangles)
-        g.setColor(Color.BLUE);
-        g.drawRect(centerX-eyeSpacing-eye,thirdY-eye,eye,eye);
-        g.drawRect(centerX+eyeSpacing,thirdY-eye,eye,eye);
-
-        // draw the nose (purple triangle)
-        g.setColor(Color.MAGENTA);
-        g.drawLine(centerX, centerY, centerX + nose/2, centerY + nose/2);
-        g.drawLine(centerX + nose/2, centerY + nose/2, centerX - nose/2, centerY + nose/2);
-        g.drawLine(centerX-nose/2, centerY+nose/2, centerX, centerY);
-
-        // draw the mouth (black oval ... partially hidden)        
-        g.setColor(Color.BLACK);
-        g.drawOval(centerX-mouth/2, h-thirdY, mouth, nose);
-
-        // hide the top part of the mouth to make it look like a smile
-        g.setColor(Color.WHITE);
-        g.fillRect(centerX-mouth/2, h-thirdY-20, mouth, 40);
-
-
         for (Shape s : shapes) {
             s.draw(g);
         }

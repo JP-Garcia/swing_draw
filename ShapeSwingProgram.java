@@ -85,6 +85,9 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         //menuItem.addActionListener(this);
         //menu.add(menuItem);
         submenu = new JMenu("Save As...");
+        menuItem = new JMenuItem("PNG");
+        menuItem.addActionListener(this);
+        submenu.add(menuItem);
         menuItem = new JMenuItem("JPEG");
         menuItem.addActionListener(this);
         submenu.add(menuItem);
@@ -185,10 +188,12 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         menu = new JMenu("Paint Type");
 
         ButtonGroup group3 = new ButtonGroup();
-        rbMenuItem = new JRadioButtonMenuItem("Draw");
+
+        rbMenuItem = new JRadioButtonMenuItem("Outline");
         rbMenuItem.addActionListener(this);
         group3.add(rbMenuItem);
         menu.add(rbMenuItem);
+        
         rbMenuItem = new JRadioButtonMenuItem("Fill");
         rbMenuItem.addActionListener(this);
         group3.add(rbMenuItem);
@@ -214,6 +219,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 //        paintPanel.invalidate();
 //        paintPanel.repaint();
         //System.out.println
+
         if (e.getActionCommand() == "Rectangle"){
             paintPanel.currentShape = PaintPanel.ShapeType.RECTANGLE;
         }
@@ -251,6 +257,9 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
             paintPanel.currentColor = "#ffffff";
         }
         if (e.getActionCommand() == "Save") {
+            save("png");
+        }
+        if (e.getActionCommand() == "PNG") {
             save("png");
         }
         if (e.getActionCommand() == "JPEG") {
