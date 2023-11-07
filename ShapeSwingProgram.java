@@ -101,41 +101,11 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         menu.add(menuItem);
 
         //Build our shape menu
-        menu = new JMenu("Shape");
+        String[] nameArr = {"Rectangle","Square", "Oval", "Circle", "Triangle", "3-Point Triangle" };
+        createDropdown(menuBar, "Shape", nameArr);
 
-        ButtonGroup group2 = new ButtonGroup();
-        rbMenuItem = new JRadioButtonMenuItem("Rectangle");
-        rbMenuItem.addActionListener(this);
-        group2.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Square");
-        rbMenuItem.addActionListener(this);
-        group2.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Oval");
-        rbMenuItem.addActionListener(this);
-        group2.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Circle");
-        rbMenuItem.addActionListener(this);
-        group2.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Triangle");
-        rbMenuItem.addActionListener(this);
-        group2.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Custom Triangle");
-        rbMenuItem.addActionListener(this);
-        group2.add(rbMenuItem);
-        menu.add(rbMenuItem);
-
-        menuBar.add(menu);
-        this.setJMenuBar(menuBar);
 
         // -- CHANGED color into a separate menu by JP
-
-        // menu.addSeparator();
-        // submenu = new JMenu("Color");
         menu = new JMenu("Color");
 
         // create a group so you can only select one color at a time
@@ -214,6 +184,23 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         paintProgram.setVisible(true);
     }
 
+    public void createDropdown(JMenuBar bar, String menuName, String[] submenuName) {
+        JMenu menu;
+        JRadioButtonMenuItem rbMenuItem;
+
+        menu = new JMenu(menuName);
+
+        ButtonGroup group = new ButtonGroup();
+        for (String i : submenuName) {
+            rbMenuItem = new JRadioButtonMenuItem(i);
+            rbMenuItem.addActionListener(this);
+            group.add(rbMenuItem);
+            menu.add(rbMenuItem);
+        }
+        bar.add(menu);
+        this.setJMenuBar(bar);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 //        paintPanel.invalidate();
@@ -235,7 +222,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         else if (e.getActionCommand() == "Triangle"){
             paintPanel.currentShape = PaintPanel.ShapeType.TRIANGLE;
         }
-        else if (e.getActionCommand() == "Custom Triangle"){
+        else if (e.getActionCommand() == "3-Point Triangle"){
             paintPanel.currentShape = PaintPanel.ShapeType.CUSTOM_TRIANGLE;
         }
         if (e.getActionCommand() == "Red") {
