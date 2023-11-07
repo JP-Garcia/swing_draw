@@ -100,9 +100,19 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
+
         //Build our shape menu
-        String[] nameArr = {"Rectangle","Square", "Oval", "Circle", "Triangle", "3-Point Triangle" };
-        createDropdown(menuBar, "Shape", nameArr);
+        menu = new JMenu("Shape");
+        String[] shapeArr = {"Rectangle","Square", "Oval", "Circle", "Triangle", "3-Point Triangle" };
+        ButtonGroup shapeGroup = new ButtonGroup();
+        for (String i : shapeArr) {
+            rbMenuItem = new JRadioButtonMenuItem(i);
+            rbMenuItem.addActionListener(this);
+            shapeGroup.add(rbMenuItem);
+            menu.add(rbMenuItem);
+        }
+        menuBar.add(menu);
+        this.setJMenuBar(menuBar);
 
 
         // -- CHANGED color into a separate menu by JP
@@ -163,7 +173,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         rbMenuItem.addActionListener(this);
         group3.add(rbMenuItem);
         menu.add(rbMenuItem);
-        
+
         rbMenuItem = new JRadioButtonMenuItem("Fill");
         rbMenuItem.addActionListener(this);
         group3.add(rbMenuItem);
@@ -182,23 +192,6 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
     public static void main(String[] args) {
         ShapeSwingProgram paintProgram = new ShapeSwingProgram("John Paul's Shape Painting Program");
         paintProgram.setVisible(true);
-    }
-
-    public void createDropdown(JMenuBar bar, String menuName, String[] submenuName) {
-        JMenu menu;
-        JRadioButtonMenuItem rbMenuItem;
-
-        menu = new JMenu(menuName);
-
-        ButtonGroup group = new ButtonGroup();
-        for (String i : submenuName) {
-            rbMenuItem = new JRadioButtonMenuItem(i);
-            rbMenuItem.addActionListener(this);
-            group.add(rbMenuItem);
-            menu.add(rbMenuItem);
-        }
-        bar.add(menu);
-        this.setJMenuBar(bar);
     }
 
     @Override
