@@ -10,8 +10,9 @@ public class Triangle extends Shape {
     protected int y2;
     protected int x3;
     protected int y3;
+    protected Boolean fill;
 
-    public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, String color) {
+    public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, String color, Boolean fill) {
         super(0, 0, color); // we are never to going to use Shape's x, y attribute so let's make it 0, 0 to emphasize that point
         this.x1 = x1;
         this.y1 = y1;
@@ -19,6 +20,7 @@ public class Triangle extends Shape {
         this.y2 = y2;
         this.x3 = x3;
         this.y3 = y3;
+        this.fill = fill;
     }
 
     @Override
@@ -28,9 +30,18 @@ public class Triangle extends Shape {
         else {
             g.setColor(color);
             // for (int i = 0; i < x.length; i++) {
-            g.drawLine(x1, y1, x2, y2);
-            g.drawLine(x2, y2, x3, y3);
-            g.drawLine(x3, y3, x1, y1);
+            int x[] = new int[] {x1,x2,x3};
+            int y[] = new int[] {y1,y2,y3};
+            if (fill) {
+                g.fillPolygon(x, y, 3);
+            }
+            else {
+                g.drawPolygon(x, y, 3);
+            }
+            // g.drawPolygon({x1,x2,x3}, {y1,y2,y3});
+            // g.drawLine(x1, y1, x2, y2);
+            // g.drawLine(x2, y2, x3, y3);
+            // g.drawLine(x3, y3, x1, y1);
             // }
         }
     }

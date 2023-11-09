@@ -22,8 +22,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.awt.Graphics2D;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -63,7 +67,6 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         JMenu menu, submenu;
         JMenuItem menuItem;
         JRadioButtonMenuItem rbMenuItem;
-
 
 
         //Create the menu bar.
@@ -134,7 +137,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
 
 
-        /*
+        
         menu = new JMenu("Paint Type");
 
         ButtonGroup group3 = new ButtonGroup();
@@ -151,7 +154,25 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
-        */
+
+        
+        menu = new JMenu("Place Type");
+
+        ButtonGroup group4 = new ButtonGroup();
+
+        rbMenuItem = new JRadioButtonMenuItem("Brush");
+        rbMenuItem.addActionListener(this);
+        group4.add(rbMenuItem);
+        menu.add(rbMenuItem);
+
+        rbMenuItem = new JRadioButtonMenuItem("Stamp");
+        rbMenuItem.addActionListener(this);
+        group4.add(rbMenuItem);
+        menu.add(rbMenuItem);
+
+        menuBar.add(menu);
+        this.setJMenuBar(menuBar);
+
 
 
         paintPanel.setPreferredSize(new Dimension(500,500));
@@ -207,10 +228,16 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
             paintPanel.currentColor = "#ffffff";
         }
         if (e.getActionCommand() == "Fill") {
-            paintPanel.currentMode = "fill";
+            paintPanel.fill = true;
         }
         if (e.getActionCommand() == "Outline") {
-            paintPanel.currentMode = "outline";
+            paintPanel.fill = false;
+        }
+        if (e.getActionCommand() == "Brush") {
+            paintPanel.place = "brush";
+        }
+        if (e.getActionCommand() == "Stamp") {
+            paintPanel.place = "stamp";
         }
         if (e.getActionCommand() == "Save") {
             save("png");
@@ -227,7 +254,16 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         if (e.getActionCommand() == "Exit") {
             System.exit(0);
         }
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+        .addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                System.out.println("Got key event!");
+                return false;
+            }
+        }); 
     }
+
 
     public void save(String formatName) {
         BufferedImage bImg = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(), BufferedImage.TYPE_INT_RGB);

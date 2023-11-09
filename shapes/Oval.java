@@ -29,7 +29,7 @@ public class Oval extends Shape {
             g.fillOval(x_top, y_top, abs(width*2), abs(height*2));
 
             g.setColor(Color.BLUE);
-            g.fillOval(x-1, y-1, 3, 3);
+            // g.fillOval(x-1, y-1, 3, 3);
 
         }
     }

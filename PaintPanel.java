@@ -33,7 +33,8 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
     protected ArrayList<Shape> shapes = new ArrayList<>();
     protected ShapeType currentShape = ShapeType.TRIANGLE;
     protected String currentColor = "#ff0000";
-    protected String currentMode = "fill";
+    protected Boolean fill = false;
+    protected String place = "stamp";
 
     public PaintPanel() {
         super();
@@ -108,8 +109,8 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseClicked(MouseEvent e) { // Comments indicate how shape is placed in relation to mouse
-        // int mouesX = e.getX();
-        // int mouesY = e.getY();
+        int mouesX = e.getX();
+        int mouesY = e.getY();
         int width = 40;
         int height = 20;
         // int midWid = width / 2;
@@ -117,40 +118,40 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         int sideLength = calculateSideLength(width, height);
         Shape s;
         if (currentShape == ShapeType.RECTANGLE) {
-            s = new Rectangle(x_i, y_i, width, height, currentColor); // Top-left
+            s = new Rectangle(mouesX, mouesY, width, height, currentColor, fill); // Top-left
         }
         else if (currentShape == ShapeType.SQUARE) {
-            s = new Square(x_i, y_i, width, height, currentColor); // Top-left
+            s = new Square(mouesX, mouesY, width, height, currentColor, fill); // Top-left
         }
         else if (currentShape == ShapeType.OVAL) {
-            s = new Oval(x_i - width, y_i - height, width, height, currentColor); // Middle
+            s = new Oval(mouesX - width, mouesY - height, width, height, currentColor); // Middle
         }
         else if (currentShape == ShapeType.CIRCLE) {
-            s = new Circle(x_i - sideLength, y_i - sideLength, sideLength, currentColor); // Middle
+            s = new Circle(mouesX - sideLength, mouesY - sideLength, sideLength, currentColor); // Middle
         }
         else if (currentShape == ShapeType.TRIANGLE) {
-            s = new Triangle(x_i - width, y_i + height, x_i, y_i - height, x_i + width, y_i + height, currentColor); // Middle
+            s = new Triangle(mouesX - width, mouesY + height, mouesX, mouesY - height, mouesX + width, mouesY + height, currentColor, fill); // Middle
         }
         else if (currentShape == ShapeType.CUSTOM_TRIANGLE) {
             if (indexT <= 3) {
-                triangleTracker(x_i, y_i);
+                triangleTracker(mouesX, mouesY);
                 System.out.println("Got coord "+ indexT);
-                s = new Rectangle(x_i - 1, y_i - 1, 3, 3, currentColor);
+                s = new Rectangle(mouesX - 1, mouesY - 1, 3, 3, currentColor, false);
                 if (indexT == 3) {
                     clearLastShape();
                     clearLastShape();
-                    s = new Triangle(coord[0], coord[1], coord[2], coord[3], coord[4], coord[5], currentColor); // Middle
+                    s = new Triangle(coord[0], coord[1], coord[2], coord[3], coord[4], coord[5], currentColor, fill); // Middle
                     indexT = 0;
                 }
                 indexT++;
             }
             else {
                 System.out.println("Error, index out of bounds");
-                s = new Rectangle(x_i - 4, y_i - 4, 9, 9, currentColor);
+                s = new Rectangle(mouesX - 4, mouesY - 4, 9, 9, currentColor, fill);
                 // indexT = 0;
             }
         }
-        else s = new Rectangle(x_i, y_i, width, height, currentColor);
+        else s = new Rectangle(mouesX, mouesY, width, height, currentColor, fill);
         shapes.add(s);
         s.draw(getGraphics());
     }
@@ -177,42 +178,47 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         // int screenW = this.getWidth();
         // int screenH = this.getHeight();
         System.out.println("mouseDragged");
-        int mouesX = e.getX();
-        int mouesY = e.getY();
-        int width = mouesX - x_i;
-        int height = mouesY - y_i;
-        // int width_mid = width / 2;
-        // int width_mid = height / 2;
-        int sideLength = calculateSideLength(width, height);
-        System.out.println(x_i + " " + y_i + "|" + mouesX + " " + mouesY);
-
-        if (firstShape == true) {
-            System.out.println("firstShape");
-            firstShape = false;
+        if (place == "brush") {
+            mouseClicked(e);
         }
         else {
-            System.out.print("looping");
-            clearLastShape();
+            int mouesX = e.getX();
+            int mouesY = e.getY();
+            int width = mouesX - x_i;
+            int height = mouesY - y_i;
+            // int width_mid = width / 2;
+            // int width_mid = height / 2;
+            int sideLength = calculateSideLength(width, height);
+            System.out.println(x_i + " " + y_i + "|" + mouesX + " " + mouesY);
+
+            if (firstShape == true) {
+                System.out.println("firstShape");
+                firstShape = false;
+            }
+            else {
+                System.out.print("looping");
+                clearLastShape();
+            }
+            Shape s;
+            if (currentShape == ShapeType.RECTANGLE) {
+                s = new Rectangle(x_i, y_i, width, height, currentColor, fill); // Top-left
+            }
+            else if (currentShape == ShapeType.SQUARE) {
+                s = new Square(x_i, y_i, width, height, currentColor, fill); // Top-right
+            }
+            else if (currentShape == ShapeType.OVAL) {
+                s = new Oval(x_i, y_i, width, height, currentColor); // Middle
+            }
+            else if (currentShape == ShapeType.CIRCLE){
+                s = new Circle(x_i, y_i, width, height, currentColor); // Middle
+            }
+            else if ((currentShape == ShapeType.TRIANGLE) || (currentShape == ShapeType.CUSTOM_TRIANGLE)) {
+                s = new Triangle(x_i - width, y_i + height, x_i, y_i - height, x_i + width, y_i + height, currentColor, fill); // Middle
+            }
+            else s = new Rectangle(x_i, y_i, width, height, currentColor, fill);
+            shapes.add(s);
+            s.draw(getGraphics());
         }
-        Shape s;
-        if (currentShape == ShapeType.RECTANGLE) {
-            s = new Rectangle(x_i, y_i, width, height, currentColor); // Top-left
-        }
-        else if (currentShape == ShapeType.SQUARE) {
-            s = new Square(x_i, y_i, width, height, currentColor); // Top-right
-        }
-        else if (currentShape == ShapeType.OVAL) {
-            s = new Oval(x_i, y_i, width, height, currentColor); // Middle
-        }
-        else if (currentShape == ShapeType.CIRCLE){
-            s = new Circle(x_i, y_i, width, height, currentColor); // Middle
-        }
-        else if ((currentShape == ShapeType.TRIANGLE) || (currentShape == ShapeType.CUSTOM_TRIANGLE)) {
-            s = new Triangle(x_i - width, y_i + height, x_i, y_i - height, x_i + width, y_i + height, currentColor); // Middle
-        }
-        else s = new Rectangle(x_i, y_i, width, height, currentColor);
-        shapes.add(s);
-        s.draw(getGraphics());
     }
 
     @Override
