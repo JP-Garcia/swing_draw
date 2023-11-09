@@ -117,48 +117,18 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 
         // -- CHANGED color into a separate menu by JP
         menu = new JMenu("Color");
-
-        // create a group so you can only select one color at a time
-        ButtonGroup group = new ButtonGroup();
-        rbMenuItem = new JRadioButtonMenuItem("Red");
-        rbMenuItem.setBackground(Color.RED);
-        rbMenuItem.addActionListener(this);
-        rbMenuItem.setSelected(true); // copy to rectangle?
-        group.add(rbMenuItem);
-        // submenu.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Yellow");
-        rbMenuItem.setBackground(Color.YELLOW);
-        rbMenuItem.addActionListener(this);
-        rbMenuItem.setSelected(true); // copy to rectangle?
-        group.add(rbMenuItem);
-        // submenu.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Green");
-        rbMenuItem.setBackground(Color.GREEN);
-        rbMenuItem.addActionListener(this);
-        group.add(rbMenuItem);
-        // submenu.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Blue");
-        rbMenuItem.setBackground(Color.BLUE);
-        rbMenuItem.addActionListener(this);
-        group.add(rbMenuItem);
-        // submenu.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("Black");
-        rbMenuItem.setBackground(Color.BLACK);
-        rbMenuItem.addActionListener(this);
-        group.add(rbMenuItem);
-        // submenu.add(rbMenuItem);
-        menu.add(rbMenuItem);
-        rbMenuItem = new JRadioButtonMenuItem("White");
-        rbMenuItem.setBackground(Color.WHITE);
-        rbMenuItem.addActionListener(this);
-        group.add(rbMenuItem);
-        // submenu.add(rbMenuItem);
-        menu.add(rbMenuItem);
-
+        String[] colorArr = {"Red","Yellow", "Green", "Blue", "Black", "White" };
+        ButtonGroup colorGroup = new ButtonGroup();
+        for (String i : colorArr) {
+            rbMenuItem = new JRadioButtonMenuItem(i);
+            ColorHelp finder = new ColorHelp();
+            Color cuColor = finder.setColor(i.toLowerCase());
+            rbMenuItem.setBackground(cuColor);
+            rbMenuItem.addActionListener(this);
+            rbMenuItem.setSelected(true);
+            colorGroup.add(rbMenuItem);
+            menu.add(rbMenuItem);
+        }
         // menu.add(submenu);
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
@@ -235,6 +205,12 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         }
         if (e.getActionCommand() == "White") {
             paintPanel.currentColor = "#ffffff";
+        }
+        if (e.getActionCommand() == "Fill") {
+            paintPanel.currentMode = "fill";
+        }
+        if (e.getActionCommand() == "Outline") {
+            paintPanel.currentMode = "outline";
         }
         if (e.getActionCommand() == "Save") {
             save("png");

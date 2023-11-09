@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import shapes.*;
 
+import static java.lang.Math.abs;
 
 
 
@@ -32,6 +33,7 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
     protected ArrayList<Shape> shapes = new ArrayList<>();
     protected ShapeType currentShape = ShapeType.TRIANGLE;
     protected String currentColor = "#ff0000";
+    protected String currentMode = "fill";
 
     public PaintPanel() {
         super();
@@ -61,10 +63,16 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
     int y_i = 0;
 
     public int calculateSideLength(int width, int height) {
-        if (Math.abs(width) > Math.abs(height)) {
-            return width;
-        }
-        return height;
+        if (Math.abs(width) > Math.abs(height)) {return abs(width);}
+        else {return abs(height);}
+    }
+    public int larger(int i_1, int i_2) {
+        if (i_1 > i_2) {return i_1;}
+        else {return i_2;}
+    }
+    public int smaller(int i_1, int i_2) {
+        if (i_1 < i_2) {return i_1;}
+        else {return i_2;}
     }
 
     int[] coord = {0, 0, 0, 0, 0, 0};
@@ -113,13 +121,13 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         }
         else if (currentShape == ShapeType.SQUARE) {
             s = new Square(x_i, y_i, width, height, currentColor); // Top-left
-        } 
+        }
         else if (currentShape == ShapeType.OVAL) {
-            s = new Oval(x_i, y_i, width, height, currentColor); // Middle
-        } 
+            s = new Oval(x_i - width, y_i - height, width, height, currentColor); // Middle
+        }
         else if (currentShape == ShapeType.CIRCLE) {
             s = new Circle(x_i - sideLength, y_i - sideLength, sideLength, currentColor); // Middle
-        } 
+        }
         else if (currentShape == ShapeType.TRIANGLE) {
             s = new Triangle(x_i - width, y_i + height, x_i, y_i - height, x_i + width, y_i + height, currentColor); // Middle
         }
@@ -176,7 +184,7 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         // int width_mid = width / 2;
         // int width_mid = height / 2;
         int sideLength = calculateSideLength(width, height);
-        System.out.println(mouesX + " " + mouesY);
+        System.out.println(x_i + " " + y_i + "|" + mouesX + " " + mouesY);
 
         if (firstShape == true) {
             System.out.println("firstShape");
@@ -192,13 +200,13 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         }
         else if (currentShape == ShapeType.SQUARE) {
             s = new Square(x_i, y_i, width, height, currentColor); // Top-right
-        } 
+        }
         else if (currentShape == ShapeType.OVAL) {
-            s = new Oval(x_i - width, y_i - height, width * 2, height * 2, currentColor); // Middle
-        } 
+            s = new Oval(x_i, y_i, width, height, currentColor); // Middle
+        }
         else if (currentShape == ShapeType.CIRCLE){
-            s = new Circle(x_i - sideLength, y_i - sideLength, sideLength, currentColor); // Middle
-        }  
+            s = new Circle(x_i, y_i, width, height, currentColor); // Middle
+        }
         else if ((currentShape == ShapeType.TRIANGLE) || (currentShape == ShapeType.CUSTOM_TRIANGLE)) {
             s = new Triangle(x_i - width, y_i + height, x_i, y_i - height, x_i + width, y_i + height, currentColor); // Middle
         }

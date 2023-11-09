@@ -39,5 +39,5 @@ public class Rectangle extends Shape {
             g.drawLine(x, y + height, x, y);
             // g.drawRect(x, y, width, height);
         }
-    }    
+    }
 }
