@@ -11,27 +11,30 @@ import java.awt.Color;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.Graphics;
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.List;
 
 import shapes.*;
 
 import static java.lang.Math.abs;
+// import static java.lang.Math.round;
 
 
 
 public class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, ComponentListener {
 
     protected enum ShapeType {
-        LINE, RECTANGLE, SQUARE, TRIANGLE, CUSTOM_TRIANGLE, OVAL, CIRCLE
+        LINE, RECTANGLE, SQUARE, TRIANGLE, CUSTOM_TRIANGLE, OVAL, CIRCLE, POLYGON
     }
 
 
     protected ArrayList<Shape> shapes = new ArrayList<>();
-    protected ShapeType currentShape = ShapeType.LINE;
+    protected ShapeType currentShape = ShapeType.POLYGON;
     protected String currentColor = "#ff0000";
     protected Boolean fill = false;
     protected String place = "stamp";
@@ -46,7 +49,7 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        System.out.println("painting....");
+        System.out.println("repainting window....");
         int w = this.getWidth();
         int h = this.getHeight();
 
@@ -58,7 +61,6 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
             g.setColor(Color.decode("#CCCCCC"));
             g.drawLine(0, i, w, i);
         }
-
         for (Shape s : shapes) {
             s.draw(g);
         }
@@ -111,19 +113,43 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         else System.out.println("Error, index out of bounds");
     }
 
+
+    int limit = 8;
+    ArrayList<Integer> x_lis = new ArrayList<Integer>();
+    ArrayList<Integer> y_lis = new ArrayList<Integer>();
+    public void polygonTracker(int x, int y) {
+        if (indexT>1) {
+            if (x == x_lis.get(0) && y==y_lis.get(0)){
+                indexT = limit;
+            }
+        }
+        x_lis.add(x);
+        y_lis.add(y);
+        
+        //     for (int i = 0; i < coord.length; i++) {
+        //         System.out.print(" " + coord[i]);
+        //     }
+        // }
+        // else System.out.println("Error, index out of bounds");
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         // handled in mouseClicked
         System.out.println("MousePressed");
         x_i = e.getX();
+        x_i = Math.round((float)x_i/(float)gridSize) * gridSize;
         y_i = e.getY();
+        y_i = Math.round((float)y_i/(float)gridSize) * gridSize;
         firstShape = true;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) { // Comments indicate how shape is placed in relation to mouse
         int mouesX = e.getX();
+        mouesX = Math.round((float)mouesX/(float)gridSize) * gridSize;
         int mouesY = e.getY();
+        mouesY = Math.round((float)mouesY/(float)gridSize) * gridSize;
         int width = 40;
         int height = 20;
         // int midWid = width / 2;
@@ -167,6 +193,29 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
                 // indexT = 0;
             }
         }
+        else if (currentShape == ShapeType.POLYGON) {
+            if (indexT <= limit) {
+                polygonTracker(mouesX, mouesY);
+                System.out.println("Got coord "+ indexT +": x,y="+x_lis+y_lis);
+                s = new Rectangle(mouesX - 1, mouesY - 1, 3, 3, currentColor, false);
+                if ((indexT == limit)) {
+                    for (int i = 0; i < y_lis.size()-1; i++) {
+                        clearLastShape();
+                    } 
+                    s = new Poly(x_lis, y_lis, currentColor, fill); // Middle
+                    indexT = 0;
+                    x_lis.clear();
+                    y_lis.clear();
+                    System.out.println("AMOG");
+                }
+                indexT++;
+            }
+            else {
+                System.out.println("Error: index out of polygon bounds");
+                s = new Rectangle(mouesX - 4, mouesY - 4, 9, 9, currentColor, fill);
+                // indexT = 0;
+            }
+        }
         else s = new Rectangle(mouesX, mouesY, width, height, currentColor, fill);
         shapes.add(s);
         s.draw(getGraphics());
@@ -199,12 +248,14 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         }
         else {
             int mouesX = e.getX();
+            mouesX = Math.round((float)mouesX/(float)gridSize) * gridSize;
             int mouesY = e.getY();
+            mouesY = Math.round((float)mouesY/(float)gridSize) * gridSize;
             int width = mouesX - x_i;
             int height = mouesY - y_i;
             // int width_mid = width / 2;
             // int width_mid = height / 2;
-            int sideLength = calculateSideLength(width, height);
+            // int sideLength = calculateSideLength(width, height);
             System.out.println(x_i + " " + y_i + "|" + mouesX + " " + mouesY);
 
             if (firstShape == true) {

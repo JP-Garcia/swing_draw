@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 public class Line extends Shape{
 
-    protected int x_f  = 10; // default width is 10
+    protected int x_f  = 0; // default width is 10
     protected int y_f = 0;  // default height is 5
 
     public Line() {
