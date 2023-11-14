@@ -26,15 +26,16 @@ import static java.lang.Math.abs;
 public class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, ComponentListener {
 
     protected enum ShapeType {
-        RECTANGLE, SQUARE, TRIANGLE, CUSTOM_TRIANGLE, OVAL, CIRCLE
+        LINE, RECTANGLE, SQUARE, TRIANGLE, CUSTOM_TRIANGLE, OVAL, CIRCLE
     }
 
 
     protected ArrayList<Shape> shapes = new ArrayList<>();
-    protected ShapeType currentShape = ShapeType.TRIANGLE;
+    protected ShapeType currentShape = ShapeType.LINE;
     protected String currentColor = "#ff0000";
     protected Boolean fill = false;
     protected String place = "stamp";
+    protected int gridSize = 20;
 
     public PaintPanel() {
         super();
@@ -46,6 +47,18 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
     public void paint(Graphics g) {
         super.paint(g);
         System.out.println("painting....");
+        int w = this.getWidth();
+        int h = this.getHeight();
+
+        for (int i = 0; i < w; i = i+gridSize) { // vertical grid
+            g.setColor(Color.decode("#CCCCCC"));
+            g.drawLine(i, 0, i, h);
+        }
+        for (int i = 0; i < h; i = i+gridSize) { // horizontal grid
+            g.setColor(Color.decode("#CCCCCC"));
+            g.drawLine(0, i, w, i);
+        }
+
         for (Shape s : shapes) {
             s.draw(g);
         }
@@ -117,17 +130,20 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         // int midWid = height / 2;
         int sideLength = calculateSideLength(width, height);
         Shape s;
-        if (currentShape == ShapeType.RECTANGLE) {
+        if (currentShape == ShapeType.LINE) {
+            s = new Line(mouesX, mouesY, currentColor, fill); // Top-left
+        }
+        else if (currentShape == ShapeType.RECTANGLE) {
             s = new Rectangle(mouesX, mouesY, width, height, currentColor, fill); // Top-left
         }
         else if (currentShape == ShapeType.SQUARE) {
             s = new Square(mouesX, mouesY, width, height, currentColor, fill); // Top-left
         }
         else if (currentShape == ShapeType.OVAL) {
-            s = new Oval(mouesX - width, mouesY - height, width, height, currentColor); // Middle
+            s = new Oval(mouesX - width, mouesY - height, width, height, currentColor, fill); // Middle
         }
         else if (currentShape == ShapeType.CIRCLE) {
-            s = new Circle(mouesX - sideLength, mouesY - sideLength, sideLength, currentColor); // Middle
+            s = new Circle(mouesX - sideLength, mouesY - sideLength, sideLength, currentColor, fill); // Middle
         }
         else if (currentShape == ShapeType.TRIANGLE) {
             s = new Triangle(mouesX - width, mouesY + height, mouesX, mouesY - height, mouesX + width, mouesY + height, currentColor, fill); // Middle
@@ -200,17 +216,20 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
                 clearLastShape();
             }
             Shape s;
-            if (currentShape == ShapeType.RECTANGLE) {
+            if (currentShape == ShapeType.LINE) {
+                s = new Line(x_i, y_i, mouesX, mouesY, currentColor, fill); // Top-left
+            }
+            else if (currentShape == ShapeType.RECTANGLE) {
                 s = new Rectangle(x_i, y_i, width, height, currentColor, fill); // Top-left
             }
             else if (currentShape == ShapeType.SQUARE) {
                 s = new Square(x_i, y_i, width, height, currentColor, fill); // Top-right
             }
             else if (currentShape == ShapeType.OVAL) {
-                s = new Oval(x_i, y_i, width, height, currentColor); // Middle
+                s = new Oval(x_i, y_i, width, height, currentColor, fill); // Middle
             }
             else if (currentShape == ShapeType.CIRCLE){
-                s = new Circle(x_i, y_i, width, height, currentColor); // Middle
+                s = new Circle(x_i, y_i, width, height, currentColor, fill); // Middle
             }
             else if ((currentShape == ShapeType.TRIANGLE) || (currentShape == ShapeType.CUSTOM_TRIANGLE)) {
                 s = new Triangle(x_i - width, y_i + height, x_i, y_i - height, x_i + width, y_i + height, currentColor, fill); // Middle

@@ -106,7 +106,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 
         //Build our shape menu
         menu = new JMenu("Shape");
-        String[] shapeArr = {"Rectangle","Square", "Oval", "Circle", "Triangle", "3-Point Triangle" };
+        String[] shapeArr = {"Line", "Rectangle","Square", "Oval", "Circle", "Triangle", "3-Point Triangle" };
         ButtonGroup shapeGroup = new ButtonGroup();
         for (String i : shapeArr) {
             rbMenuItem = new JRadioButtonMenuItem(i);
@@ -190,8 +190,10 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 //        paintPanel.invalidate();
 //        paintPanel.repaint();
         //System.out.println
-
-        if (e.getActionCommand() == "Rectangle"){
+        if (e.getActionCommand() == "Line"){
+            paintPanel.currentShape = PaintPanel.ShapeType.LINE;
+        }
+        else if (e.getActionCommand() == "Rectangle"){
             paintPanel.currentShape = PaintPanel.ShapeType.RECTANGLE;
         }
         else if (e.getActionCommand() == "Square"){
@@ -212,19 +214,19 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         if (e.getActionCommand() == "Red") {
             paintPanel.currentColor = "#ff0000";
         }
-        if (e.getActionCommand() == "Yellow") {
+        else if (e.getActionCommand() == "Yellow") {
             paintPanel.currentColor = "#ffff00";
         }
-        if (e.getActionCommand() == "Green") {
+        else if (e.getActionCommand() == "Green") {
             paintPanel.currentColor = "#00ff00";
         }
-        if (e.getActionCommand() == "Blue") {
+        else if (e.getActionCommand() == "Blue") {
             paintPanel.currentColor = "#0000ff";
         }
-        if (e.getActionCommand() == "Black") {
+        else if (e.getActionCommand() == "Black") {
             paintPanel.currentColor = "#000000";
         }
-        if (e.getActionCommand() == "White") {
+        else if (e.getActionCommand() == "White") {
             paintPanel.currentColor = "#ffffff";
         }
         if (e.getActionCommand() == "Fill") {

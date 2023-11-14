@@ -9,8 +9,8 @@ public class Oval extends Shape {
     protected int width = 10;
     protected int height = 5;
 
-    public Oval(int x, int y, int width, int height, String color) {
-        super(x, y, color);
+    public Oval(int x, int y, int width, int height, String color, Boolean fill) {
+        super(x, y, color, fill);
         this.width = width;
         this.height = height;
     }
@@ -26,7 +26,8 @@ public class Oval extends Shape {
             int x_top = x - abs(width);
             System.out.println(width + "-" + height);
             int y_top = y - abs(height);
-            g.fillOval(x_top, y_top, abs(width*2), abs(height*2));
+            if (fill) {g.fillOval(x_top, y_top, abs(width*2), abs(height*2));}
+            else {g.drawOval(x_top, y_top, abs(width*2), abs(height*2));}
 
             g.setColor(Color.BLUE);
             // g.fillOval(x-1, y-1, 3, 3);

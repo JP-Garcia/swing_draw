@@ -7,7 +7,6 @@ public class Rectangle extends Shape {
 
     protected int width  = 10; // default width is 10
     protected int height = 5;  // default height is 5
-    private Boolean fill = false;
 
     public Rectangle() {
         // nothing to do, but required by java!
@@ -21,10 +20,9 @@ public class Rectangle extends Shape {
     */
     
     public Rectangle(int x, int y, int width, int height, String color, Boolean fill) {
-        super(x, y, color);
+        super(x, y, color, fill);
         this.width = width;
         this.height = height;
-        this.fill = fill;
     }
 
     @Override
