@@ -18,8 +18,8 @@ public class Square extends Rectangle {
         else return -1;
     }
 
-    public Square(int x, int y, int width, int height, String color) {
-        super(x, y, isPositive(width) * calculateSideLenght(width, height), isPositive(height) * calculateSideLenght(width, height), color);
+    public Square(int x, int y, int width, int height, String color, Boolean fill) {
+        super(x, y, isPositive(width) * calculateSideLenght(width, height), isPositive(height) * calculateSideLenght(width, height), color, fill);
     }
 
     
