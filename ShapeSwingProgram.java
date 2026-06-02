@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -51,43 +52,26 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
-/*
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        JButton buttonUndo = new JButton("undo");
-        buttonUndo.addActionListener(this);
-        buttonPanel.add(buttonUndo);
-        JButton buttonRefresh = new JButton("refresh");
-        buttonRefresh.addActionListener(this);
-        buttonPanel.add(buttonRefresh);
-        this.add(buttonPanel, BorderLayout.PAGE_START);
-*/
-
-
         JMenuBar menuBar;
         JMenu menu, submenu;
         JMenuItem menuItem;
+        JButton button;
         JRadioButtonMenuItem rbMenuItem;
 
 
-        //Create the menu bar.
         menuBar = new JMenuBar();
-
-        //Build the first menu.
         menu = new JMenu("File");
         menu.setMnemonic(MenuKeyEvent.VK_F);
         menuBar.add(menu);
 
-        //a group of file-related menu items
+        // file-related menu items
         menuItem = new JMenuItem("Open", MenuKeyEvent.VK_O);
         menuItem.addActionListener(this);
         menu.add(menuItem);
         menuItem = new JMenuItem("Save", MenuKeyEvent.VK_S);
         menuItem.addActionListener(this);
         menu.add(menuItem);
-        //menuItem = new JMenuItem("Save As...", MenuKeyEvent.VK_A);
-        //menuItem.addActionListener(this);
-        //menu.add(menuItem);
-        submenu = new JMenu("Save As...");
+        submenu = new JMenu("Save As..."); //("Save As...", MenuKeyEvent.VK_A);
         menuItem = new JMenuItem("PNG");
         menuItem.addActionListener(this);
         submenu.add(menuItem);
@@ -98,13 +82,11 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         menuItem.addActionListener(this);
         submenu.add(menuItem);
         menu.add(submenu);
-
         menuItem = new JMenuItem("Exit", MenuKeyEvent.VK_X);
         menuItem.addActionListener(this);
         menu.add(menuItem);
 
-
-        //Build our shape menu
+        //Shape menu
         menu = new JMenu("Shape");
         String[] shapeArr = {"Line", "Rectangle","Square", "Oval", "Circle", "Triangle", "3-Point Triangle" };
         ButtonGroup shapeGroup = new ButtonGroup();
@@ -117,8 +99,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
 
-
-        // -- CHANGED color into a separate menu by JP
+        // Color menu
         menu = new JMenu("Color");
         String[] colorArr = {"Red","Yellow", "Green", "Blue", "Black", "White" };
         ButtonGroup colorGroup = new ButtonGroup();
@@ -136,41 +117,38 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
 
-
         
         menu = new JMenu("Paint Type");
-
         ButtonGroup group3 = new ButtonGroup();
-
         rbMenuItem = new JRadioButtonMenuItem("Outline");
         rbMenuItem.addActionListener(this);
         group3.add(rbMenuItem);
         menu.add(rbMenuItem);
-
         rbMenuItem = new JRadioButtonMenuItem("Fill");
         rbMenuItem.addActionListener(this);
         group3.add(rbMenuItem);
         menu.add(rbMenuItem);
-
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
 
         
         menu = new JMenu("Place Type");
-
         ButtonGroup group4 = new ButtonGroup();
-
         rbMenuItem = new JRadioButtonMenuItem("Brush");
         rbMenuItem.addActionListener(this);
         group4.add(rbMenuItem);
         menu.add(rbMenuItem);
-
         rbMenuItem = new JRadioButtonMenuItem("Stamp");
         rbMenuItem.addActionListener(this);
         group4.add(rbMenuItem);
         menu.add(rbMenuItem);
-
         menuBar.add(menu);
+        this.setJMenuBar(menuBar);
+
+
+        button = new JButton("Undo");
+        button.addActionListener(this);
+        menuBar.add(button);
         this.setJMenuBar(menuBar);
 
 
@@ -190,6 +168,9 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 //        paintPanel.invalidate();
 //        paintPanel.repaint();
         //System.out.println
+        if (e.getActionCommand() == "Undo"){
+            paintPanel.clearLastShape();
+        }
         if (e.getActionCommand() == "Line"){
             paintPanel.currentShape = PaintPanel.ShapeType.LINE;
         }
