@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -54,6 +55,7 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         JMenuBar menuBar;
         JMenu menu, submenu;
         JMenuItem menuItem;
+        JButton button;
         JRadioButtonMenuItem rbMenuItem;
 
 
@@ -144,6 +146,13 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
 
 
+        button = new JButton("Undo");
+        button.addActionListener(this);
+        menuBar.add(button);
+        this.setJMenuBar(menuBar);
+
+
+
         paintPanel.setPreferredSize(new Dimension(500,500));
         paintPanel.setBackground(Color.WHITE);
         this.getContentPane().add(paintPanel, BorderLayout.CENTER);
@@ -159,6 +168,9 @@ public class ShapeSwingProgram extends JFrame implements ActionListener {
 //        paintPanel.invalidate();
 //        paintPanel.repaint();
         //System.out.println
+        if (e.getActionCommand() == "Undo"){
+            paintPanel.clearLastShape();
+        }
         if (e.getActionCommand() == "Line"){
             paintPanel.currentShape = PaintPanel.ShapeType.LINE;
         }
