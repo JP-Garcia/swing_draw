@@ -1,29 +1,16 @@
-// import java.awt.Component;
-// import java.awt.List;
-// import java.awt.image.BufferedImage;
-// import javax.imageio.ImageIO;
-// import java.io.IOException;
-// import java.io.ObjectInputStream;
-// import java.io.ObjectOutputStream;
-// import java.io.Serializable;
-
 import java.awt.Color;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.Graphics;
-import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import java.util.ArrayList;
-import java.util.List;
 
 import shapes.*;
 
 import static java.lang.Math.abs;
-// import static java.lang.Math.round;
-
 
 
 public class PaintPanel extends JPanel implements MouseListener, MouseMotionListener, ComponentListener {
@@ -125,12 +112,6 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
         }
         x_lis.add(x);
         y_lis.add(y);
-        
-        //     for (int i = 0; i < coord.length; i++) {
-        //         System.out.print(" " + coord[i]);
-        //     }
-        // }
-        // else System.out.println("Error, index out of bounds");
     }
 
     @Override
@@ -190,7 +171,6 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
             else {
                 System.out.println("Error, index out of bounds");
                 s = new Rectangle(mouesX - 4, mouesY - 4, 9, 9, currentColor, fill);
-                // indexT = 0;
             }
         }
         else if (currentShape == ShapeType.POLYGON) {
@@ -206,14 +186,12 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
                     indexT = 0;
                     x_lis.clear();
                     y_lis.clear();
-                    System.out.println("AMOG");
                 }
                 indexT++;
             }
             else {
                 System.out.println("Error: index out of polygon bounds");
                 s = new Rectangle(mouesX - 4, mouesY - 4, 9, 9, currentColor, fill);
-                // indexT = 0;
             }
         }
         else s = new Rectangle(mouesX, mouesY, width, height, currentColor, fill);
@@ -293,7 +271,7 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // Ignored  b  
+        // Ignored 
     }
 
     @Override
@@ -305,17 +283,17 @@ public class PaintPanel extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void componentMoved(ComponentEvent e) {
-        // TODO Auto-generated method stub
+        // Ignored
 
     }
 
     @Override
     public void componentShown(ComponentEvent e) {
-        // TODO Auto-generated method stub
+        // Ignored
     }
 
     @Override
     public void componentHidden(ComponentEvent e) {
-        // TODO Auto-generated method stub
+        // Ignored
     }  
 }
